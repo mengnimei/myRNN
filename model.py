@@ -19,7 +19,7 @@ class Model():
         self.global_step = tf.Variable(0, trainable=False, name='self.global_step', dtype=tf.int64)# 存放运行到第几个step（global step）
         self.X = tf.placeholder(tf.int32, shape=[None, self.num_steps], name='input')#存放input数据X
         self.Y = tf.placeholder(tf.int32, shape=[None, self.num_steps], name='label')#存放groundtruth（label）即Y
-        #self.keep_prob = tf.placeholder(1, name='self.keep_prob')
+        self.keep_prob = tf.placeholder(1, name='self.keep_prob')
 
         with tf.variable_scope('embedding'):
             if embedding_file:
@@ -42,7 +42,7 @@ class Model():
             # My Code here
             ##################
             lstm_cell = tf.nn.rnn_cell.BasicLSTMCell(self.dim_embedding, forget_bias=0.0, state_is_tuple=True)
-            lstm_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_cell, output_keep_prob=1.0)
+            lstm_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_cell, output_keep_prob=1)
             cell = tf.nn.rnn_cell.MultiRNNCell([lstm_cell] * self.rnn_layers, state_is_tuple=True)
             self.state_tensor = cell.zero_state(self.batch_size, tf.float32)
             outputs_tensor, self.outputs_state_tensor= tf.nn.dynamic_rnn(cell, data, initial_state=self.state_tensor)
