@@ -11,3 +11,4 @@ https://gitee.com/MengNiMeia/myRNN/blob/master/word2vec_songci.py
 
 
 # myRNN
+# myRNN
